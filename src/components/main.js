@@ -48,8 +48,27 @@ function showToast(msg) {
   toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
 }
 
-// ---------- MOBILE MENU ----------
+// ---------- DOM READY EVENTS ----------
 document.addEventListener('DOMContentLoaded', function () {
+  
+  // Atribuição dos eventos de Billing Toggle (Removendo a necessidade do onclick no HTML)
+  const btnMensal = document.getElementById('btnMensal');
+  const btnAnual = document.getElementById('btnAnual');
+  
+  if (btnMensal) {
+    btnMensal.addEventListener('click', () => setToggle('mensal'));
+  }
+  if (btnAnual) {
+    btnAnual.addEventListener('click', () => setToggle('anual'));
+  }
+
+  // Atribuição do evento de Newsletter (Removendo a necessidade do onsubmit no HTML)
+  const newsletterForm = document.querySelector('.newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', handleNewsletter);
+  }
+
+  // ---------- MOBILE MENU ----------
   const toggle  = document.getElementById('menuToggle');
   const mobileNav = document.getElementById('mobileNav');
 
