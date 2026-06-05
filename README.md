@@ -41,6 +41,7 @@ open index.html
 python3 -m http.server 8080
 # Acesse: http://localhost:8080
 
+
 # Opção 3 — servidor local com Node.js (npx)
 npx serve .
 # Acesse: http://localhost:3000
