@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Atendimento ao Cliente — NexoUP Blog</title>
+  <meta name="description" content="Métricas, integrações, processos e estratégias para gestão de atendimento ao cliente de alto desempenho. Conteúdo da equipe NexoUP." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/styles/main.css" />
+  <style>
+
+    /* ── CATEGORY NAV ── */
+    .cat-nav {
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-nav-inner {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .cat-nav-inner::-webkit-scrollbar { display: none; }
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .7rem 1.1rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+      text-decoration: none;
+    }
+    .cat-pill:hover { color: var(--navy); }
+    .cat-pill.active { color: var(--navy); border-bottom-color: var(--green); font-weight: 500; }
+    .cat-pill .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── HERO ── */
+    .cat-hero {
+      background: var(--navy);
+      padding: 4rem 0 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .cat-hero .container { position: relative; }
+    .cat-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .75rem;
+      font-weight: 500;
+      padding: .3rem .9rem;
+      border-radius: 20px;
+      margin-bottom: 1.1rem;
+      background: rgba(15,110,86,.3);
+      color: #b7f5e0;
+      border: 1px solid rgba(46,204,113,.25);
+    }
+    .cat-hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: .9rem;
+      max-width: 600px;
+    }
+    .cat-hero h1 span { color: var(--green); }
+    .cat-hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,.6);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .cat-hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .cat-stat-num {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+    }
+    .cat-stat-label { display: block; font-size: .75rem; color: rgba(255,255,255,.45); margin-top: 3px; }
+
+    /* ── FEATURED ── */
+    .featured-strip { background: var(--white); padding: 2.5rem 0 0; }
+    .strip-label {
+      font-size: .72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-muted); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .strip-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .featured-article {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      text-decoration: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .featured-article:hover { border-color: var(--green-border); box-shadow: var(--shadow-md); }
+    .fa-content { display: flex; flex-direction: column; justify-content: space-between; }
+    .fa-content h2 {
+      font-family: var(--font-heading);
+      font-size: 1.35rem; font-weight: 600;
+      color: var(--navy); line-height: 1.35;
+      margin: .75rem 0 .75rem;
+    }
+    .fa-content p { font-size: .92rem; color: var(--text-secondary); line-height: 1.7; flex: 1; }
+    .fa-meta { display: flex; align-items: center; gap: .6rem; margin-top: 1.25rem; }
+    .fa-avatar {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--navy); color: var(--green);
+      font-size: .6rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-family: var(--font-heading);
+    }
+    .fa-meta-text { font-size: .78rem; color: var(--text-muted); }
+    .fa-read {
+      display: inline-flex; align-items: center; gap: .3rem;
+      font-size: .85rem; font-weight: 500; color: var(--navy);
+      margin-top: 1rem; border-bottom: 1px solid var(--green); width: fit-content;
+    }
+
+    /* featured visual */
+    .fa-visual {
+      background: linear-gradient(135deg, var(--navy) 0%, #0f3d29 100%);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      min-height: 220px;
+    }
+    .metrics-grid-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .55rem;
+      flex: 1;
+    }
+    .mgd-block {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-md);
+      padding: .75rem;
+      display: flex;
+      flex-direction: column;
+      gap: .2rem;
+    }
+    .mgd-val {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+    }
+    .mgd-name { font-size: .62rem; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .04em; }
+    .mgd-trend { font-size: .68rem; color: rgba(255,255,255,.35); margin-top: auto; }
+    .mgd-trend.up { color: #6be49b; }
+    .mgd-trend.down { color: #f09595; }
+    .mgd-label { font-size: .65rem; font-weight: 600; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .05em; }
+
+    /* gateway mini */
+    .gateway-demo {
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+      flex: 1;
+    }
+    .gw-row {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-sm);
+      padding: .45rem .65rem;
+    }
+    .gw-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .gw-dot.on { background: var(--green); box-shadow: 0 0 6px rgba(46,204,113,.6); }
+    .gw-dot.off { background: rgba(255,255,255,.2); }
+    .gw-name { font-size: .72rem; color: rgba(255,255,255,.7); flex: 1; }
+    .gw-msgs { font-size: .65rem; color: rgba(255,255,255,.35); }
+
+    /* ── ARTICLES GRID ── */
+    .articles-section { padding: 2.5rem 0 5rem; }
+    .section-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .section-row h2 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem; font-weight: 600; color: var(--navy);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .section-row h2 span { color: var(--green); }
+    .art-count { font-size: .8rem; color: var(--text-muted); background: var(--gray-100); padding: .2rem .7rem; border-radius: 20px; }
+
+    .cat-articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+
+    .cat-article-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      text-decoration: none; display: flex; flex-direction: column; gap: .5rem;
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
+    .cat-article-card:hover { border-color: var(--green-border); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .cat-article-card h3 { font-family: var(--font-heading); font-size: .95rem; font-weight: 600; color: var(--navy); line-height: 1.4; }
+    .cat-article-card p { font-size: .85rem; color: var(--text-secondary); line-height: 1.6; flex: 1; }
+    .card-foot { display: flex; align-items: center; justify-content: space-between; padding-top: .75rem; border-top: 1px solid var(--border); margin-top: auto; }
+    .card-time { font-size: .75rem; color: var(--text-muted); }
+    .card-arrow { font-size: .8rem; font-weight: 500; color: var(--navy); }
+
+    /* highlight card (spans 2 cols) */
+    .cat-article-card.wide { grid-column: span 2; flex-direction: row; gap: 1.5rem; align-items: flex-start; }
+    .cat-article-card.wide .card-body { flex: 1; display: flex; flex-direction: column; gap: .5rem; }
+    .cat-article-card.wide .card-visual {
+      width: 160px;
+      flex-shrink: 0;
+      background: var(--navy);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      gap: .4rem;
+    }
+    .gw-mini-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(255,255,255,.06);
+      border-radius: 4px;
+      padding: .3rem .5rem;
+    }
+    .gw-mini-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .gw-mini-name { font-size: .62rem; color: rgba(255,255,255,.6); flex: 1; }
+    .gw-mini-count { font-size: .58rem; color: rgba(255,255,255,.3); }
+
+    /* ── CTA ── */
+    .cat-cta {
+      background: var(--navy); border-radius: var(--radius-xl);
+      padding: 2.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; margin-top: 3rem; flex-wrap: wrap;
+    }
+    .cat-cta h3 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; color: var(--white); margin-bottom: .35rem; }
+    .cat-cta p { font-size: .9rem; color: rgba(255,255,255,.55); }
+    .cat-cta a {
+      display: inline-block; background: var(--green); color: var(--navy);
+      font-size: .9rem; font-weight: 500; padding: .75rem 1.5rem;
+      border-radius: var(--radius-md); white-space: nowrap;
+      transition: background var(--transition); text-decoration: none;
+    }
+    .cat-cta a:hover { background: var(--green-dark); color: var(--white); }
+
+    /* ── NEWSLETTER ── */
+    .nl-section { background: var(--green-light); border-top: 1px solid var(--green-border); padding: 2.5rem 0; }
+    .nl-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .nl-text h3 { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; color: var(--navy); margin-bottom: .2rem; }
+    .nl-text p { font-size: .88rem; color: var(--text-secondary); }
+    .nl-form { display: flex; gap: .6rem; flex: 1; min-width: 240px; max-width: 400px; }
+    .nl-form input { flex: 1; padding: .65rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--green-border); background: var(--white); font-size: .875rem; font-family: var(--font-body); color: var(--text-primary); outline: none; }
+    .nl-form input:focus { border-color: var(--green); }
+    .nl-form button { background: var(--navy); color: var(--white); font-size: .875rem; font-weight: 500; font-family: var(--font-body); padding: .65rem 1.2rem; border-radius: var(--radius-md); border: none; cursor: pointer; white-space: nowrap; }
+    .nl-form button:hover { background: var(--navy-mid); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .featured-article { grid-template-columns: 1fr; }
+      .fa-visual { min-height: 160px; }
+      .cat-articles-grid { grid-template-columns: 1fr 1fr; }
+      .cat-article-card.wide { grid-column: span 2; }
+    }
+    @media (max-width: 640px) {
+      .header-nav { display: none; }
+      .menu-toggle { display: flex; }
+      .cat-articles-grid { grid-template-columns: 1fr; }
+      .cat-article-card.wide { flex-direction: column; grid-column: span 1; }
+      .cat-article-card.wide .card-visual { width: 100%; }
+      .cat-cta { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo-area">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="2" fill="#2ECC71"/>
+            <rect x="18" y="2" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="2" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="18" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".25"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Nexo<strong>UP</strong></span>
+          <span class="logo-tagline">Conectando atendimentos inteligentes</span>
+        </div>
+      </a>
+      <nav class="header-nav" aria-label="Navegação principal">
+        <a href="kanban.html" class="nav-link">Kanban</a>
+        <a href="boas-praticas.html" class="nav-link">Boas práticas</a>
+        <a href="gestao.html" class="nav-link" style="color:var(--navy);font-weight:500">Gestão</a>
+        <a href="../index.html#sobre" class="nav-link">Sobre</a>
+        <a href="../index.html#planos" class="btn-header">Contratar sistema</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="kanban.html" class="nav-link">Kanban</a>
+      <a href="boas-praticas.html" class="nav-link">Boas práticas</a>
+      <a href="gestao.html" class="nav-link">Gestão</a>
+      <a href="../index.html#sobre" class="nav-link">Sobre</a>
+      <a href="../index.html#planos" class="btn-header">Contratar sistema</a>
+    </div>
+  </header>
+
+  <!-- CATEGORY NAV -->
+  <nav class="cat-nav" aria-label="Categorias do blog">
+    <div class="container cat-nav-inner">
+      <a href="../index.html#artigos" class="cat-pill">
+        <span class="dot" style="background:#adb5bd"></span> Todos
+      </a>
+      <a href="kanban.html" class="cat-pill">
+        <span class="dot" style="background:#185FA5"></span> Kanban
+      </a>
+      <a href="boas-praticas.html" class="cat-pill">
+        <span class="dot" style="background:#854F0B"></span> Boas práticas
+      </a>
+      <a href="gestao.html" class="cat-pill active">
+        <span class="dot" style="background:#0F6E56"></span> Gestão
+      </a>
+      <a href="artigo.html?artigo=setores-filas-roteamento-nexoup" class="cat-pill">
+        <span class="dot" style="background:#3C3489"></span> NexoUP
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="cat-hero">
+    <div class="container">
+      <div class="cat-hero-badge">✦ Gestão</div>
+      <h1>Dados e processos para um atendimento que <span>escala</span></h1>
+      <p>Métricas, integrações de gateways, roteamento e estratégias para gestores que querem tomar decisões baseadas em dados e construir operações de alto desempenho.</p>
+      <div class="cat-hero-stats">
+        <div>
+          <span class="cat-stat-num">2</span>
+          <span class="cat-stat-label">Artigos nesta categoria</span>
+        </div>
+        <div>
+          <span class="cat-stat-num">12 min</span>
+          <span class="cat-stat-label">Tempo total de leitura</span>
+        </div>
+        <div>
+          <span class="cat-stat-num">−40%</span>
+          <span class="cat-stat-label">Redução em transferências</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED ARTICLE -->
+  <section class="featured-strip">
+    <div class="container">
+      <div class="strip-label">Artigo em destaque</div>
+      <a href="artigo.html?artigo=5-metricas-essenciais-gestao-atendimento" class="featured-article">
+        <div class="fa-content">
+          <div>
+            <span class="cat-badge cat-gestao">Gestão</span>
+            <h2>5 métricas essenciais para gestão de atendimento ao cliente</h2>
+            <p>TMA, CSAT, NPS, FCR e SLA: entenda o que cada indicador revela sobre a saúde do seu suporte, como calculá-los e como usá-los para tomar decisões que realmente melhoram a experiência do cliente.</p>
+          </div>
+          <div>
+            <div class="fa-meta">
+              <div class="fa-avatar">AI</div>
+              <span class="fa-meta-text">Adriano Israel · 6 min · 21 mai 2026</span>
+            </div>
+            <span class="fa-read">Ler artigo →</span>
+          </div>
+        </div>
+        <div class="fa-visual" aria-hidden="true">
+          <span class="mgd-label">Dashboard — NexoUP</span>
+          <div class="metrics-grid-demo">
+            <div class="mgd-block">
+              <span class="mgd-val">7m 24s</span>
+              <span class="mgd-name">TMA</span>
+              <span class="mgd-trend up">↓ 12% vs semana passada</span>
+            </div>
+            <div class="mgd-block">
+              <span class="mgd-val">91%</span>
+              <span class="mgd-name">CSAT</span>
+              <span class="mgd-trend up">↑ 4 pts este mês</span>
+            </div>
+            <div class="mgd-block">
+              <span class="mgd-val">+68</span>
+              <span class="mgd-name">NPS</span>
+              <span class="mgd-trend up">↑ 3 pts</span>
+            </div>
+            <div class="mgd-block">
+              <span class="mgd-val">78%</span>
+              <span class="mgd-name">FCR</span>
+              <span class="mgd-trend down">↓ 2% esta semana</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ARTICLES GRID -->
+  <section class="articles-section">
+    <div class="container">
+      <div class="section-row">
+        <h2><span>✦</span> Todos os artigos</h2>
+        <span class="art-count">2 artigos</span>
+      </div>
+
+      <div class="cat-articles-grid">
+
+        <a href="artigo.html?artigo=5-metricas-essenciais-gestao-atendimento" class="cat-article-card">
+          <span class="cat-badge cat-gestao">Gestão</span>
+          <h3>5 métricas essenciais para gestão de atendimento ao cliente</h3>
+          <p>TMA, CSAT, NPS, FCR e SLA: o painel de controle que todo gestor de atendimento precisa acompanhar.</p>
+          <div class="card-foot">
+            <span class="card-time">⏱ 6 min · Adriano Israel</span>
+            <span class="card-arrow">Ler →</span>
+          </div>
+        </a>
+
+        <!-- wide card: Z-API article -->
+        <a href="artigo.html?artigo=zapi-meta-twilio-painel-unificado" class="cat-article-card wide">
+          <div class="card-visual" aria-hidden="true">
+            <span style="font-size:.6rem;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem">Gateways ativos</span>
+            <div class="gw-mini-row"><span class="gw-mini-dot" style="background:var(--green)"></span><span class="gw-mini-name">Z-API</span><span class="gw-mini-count">1.2k msg</span></div>
+            <div class="gw-mini-row"><span class="gw-mini-dot" style="background:var(--green)"></span><span class="gw-mini-name">Meta Cloud</span><span class="gw-mini-count">3.8k msg</span></div>
+            <div class="gw-mini-row"><span class="gw-mini-dot" style="background:var(--green)"></span><span class="gw-mini-name">Twilio</span><span class="gw-mini-count">540 msg</span></div>
+            <div class="gw-mini-row"><span class="gw-mini-dot" style="background:rgba(255,255,255,.2)"></span><span class="gw-mini-name">Webhook</span><span class="gw-mini-count">standby</span></div>
+          </div>
+          <div class="card-body">
+            <span class="cat-badge cat-gestao">Gestão</span>
+            <h3>Z-API, Meta e Twilio unificados em um só painel</h3>
+            <p>Como integrar múltiplos gateways de WhatsApp — com fallback automático, histórico unificado e visibilidade total do atendimento em um único dashboard.</p>
+            <div class="card-foot">
+              <span class="card-time">⏱ 6 min · Adriano Israel</span>
+              <span class="card-arrow">Ler →</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Em breve -->
+        <div class="cat-article-card" style="opacity:.5;cursor:default;border-style:dashed">
+          <span class="cat-badge cat-gestao">Gestão</span>
+          <h3>SLA na prática: como definir, monitorar e cumprir prazos de atendimento</h3>
+          <p>Da configuração dos acordos de nível de serviço ao painel de alertas que avisa antes do vencimento.</p>
+          <div class="card-foot">
+            <span class="card-time">Em breve</span>
+            <span class="card-arrow" style="color:var(--text-muted)">🔒</span>
+          </div>
+        </div>
+
+        <div class="cat-article-card" style="opacity:.5;cursor:default;border-style:dashed">
+          <span class="cat-badge cat-gestao">Gestão</span>
+          <h3>Como estruturar relatórios de atendimento para a diretoria</h3>
+          <p>Quais métricas apresentar, qual periodicidade e como transformar dados de suporte em decisões estratégicas.</p>
+          <div class="card-foot">
+            <span class="card-time">Em breve</span>
+            <span class="card-arrow" style="color:var(--text-muted)">🔒</span>
+          </div>
+        </div>
+
+        <div class="cat-article-card" style="opacity:.5;cursor:default;border-style:dashed">
+          <span class="cat-badge cat-gestao">Gestão</span>
+          <h3>Escalabilidade: quando e como expandir a equipe de atendimento</h3>
+          <p>Sinais de que chegou a hora de contratar e como integrar novos operadores sem queda de qualidade.</p>
+          <div class="card-foot">
+            <span class="card-time">Em breve</span>
+            <span class="card-arrow" style="color:var(--text-muted)">🔒</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <div class="cat-cta">
+        <div>
+          <h3>Gerencie com dados, não com achismos</h3>
+          <p>O NexoUP entrega métricas em tempo real, SLA configurável e visibilidade completa por setor — tudo que o gestor precisa para tomar decisões melhores.</p>
+        </div>
+        <a href="../index.html#planos">Testar 14 dias grátis →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="nl-section">
+    <div class="container nl-inner">
+      <div class="nl-text">
+        <h3>📬 Novidades toda semana</h3>
+        <p>Artigos sobre gestão de atendimento diretamente no seu e-mail.</p>
+      </div>
+      <form class="nl-form" onsubmit="handleNL(event)">
+        <input type="email" id="nlEmail" placeholder="contato@nexoup.com.br" required />
+        <button type="submit">Inscrever-se</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">Nexo<strong>UP</strong></div>
+      <p class="footer-tagline">Conectando atendimentos inteligentes</p>
+      <nav class="footer-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#planos">Planos</a>
+        <a href="mailto:adriano.israel@live.com">Contato</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 NexoUP. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div id="toast" style="position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;font-size:.875rem;padding:.75rem 1.25rem;border-radius:var(--radius-md);border-left:3px solid var(--green);box-shadow:var(--shadow-md);z-index:999;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none"></div>
+
+  <script>
+    // Header shadow
+    const hdr = document.getElementById('siteHeader');
+    window.addEventListener('scroll', () => {
+      hdr.style.boxShadow = window.scrollY > 8 ? '0 2px 16px rgba(27,46,60,.08)' : 'none';
+    }, { passive: true });
+
+    // Mobile menu
+    const btn = document.getElementById('menuToggle');
+    const nav = document.getElementById('mobileNav');
+    btn.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+      nav.setAttribute('aria-hidden', !open);
+    });
+
+    // Newsletter
+    function handleNL(e) {
+      e.preventDefault();
+      const t = document.getElementById('toast');
+      t.textContent = '✓ Inscrição realizada! Bem-vindo(a) ao NexoUP Blog.';
+      t.style.opacity = '1'; t.style.transform = 'translateY(0)';
+      document.getElementById('nlEmail').value = '';
+      setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(12px)'; }, 3500);
+    }
+  </script>
+
+</body>
+</html>

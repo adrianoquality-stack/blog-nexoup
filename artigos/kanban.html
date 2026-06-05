@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban para Atendimento — NexoUP Blog</title>
+  <meta name="description" content="Aprenda a aplicar a metodologia Kanban no atendimento via WhatsApp. Fluxos, WIP Limits, quadros visuais e melhoria contínua com o NexoUP." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/styles/main.css" />
+  <style>
+    .cat-nav{background:var(--gray-50);border-bottom:1px solid var(--border)}
+    .cat-nav-inner{display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+    .cat-nav-inner::-webkit-scrollbar{display:none}
+    .cat-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.1rem;font-size:.85rem;color:var(--text-secondary);white-space:nowrap;border-bottom:2px solid transparent;transition:color var(--transition),border-color var(--transition);text-decoration:none}
+    .cat-pill:hover{color:var(--navy)}
+    .cat-pill.active{color:var(--navy);border-bottom-color:var(--green);font-weight:500}
+    .cat-pill .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .cat-hero{background:var(--navy);padding:4rem 0 3.5rem;position:relative;overflow:hidden}
+    .cat-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px}
+    .cat-hero .container{position:relative}
+    .cat-hero-badge{display:inline-flex;align-items:center;gap:.45rem;font-size:.75rem;font-weight:500;padding:.3rem .9rem;border-radius:20px;margin-bottom:1.1rem;background:rgba(24,95,165,.3);color:#c2daf7;border:1px solid rgba(24,95,165,.4)}
+    .cat-hero h1{font-family:var(--font-heading);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--white);line-height:1.2;margin-bottom:.9rem;max-width:600px}
+    .cat-hero h1 span{color:var(--green)}
+    .cat-hero p{font-size:1rem;color:rgba(255,255,255,.6);max-width:520px;line-height:1.7;margin-bottom:2rem}
+    .cat-hero-stats{display:flex;gap:2rem;flex-wrap:wrap}
+    .cat-stat-num{display:block;font-family:var(--font-heading);font-size:1.5rem;font-weight:700;color:#c2daf7;line-height:1}
+    .cat-stat-label{display:block;font-size:.75rem;color:rgba(255,255,255,.45);margin-top:3px}
+    .featured-strip{background:var(--white);padding:2.5rem 0 0}
+    .strip-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+    .strip-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .featured-article{display:grid;grid-template-columns:1fr 1fr;gap:2rem;background:var(--gray-50);border:1px solid var(--border);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2.5rem;text-decoration:none;transition:border-color var(--transition),box-shadow var(--transition)}
+    .featured-article:hover{border-color:var(--green-border);box-shadow:var(--shadow-md)}
+    .fa-content{display:flex;flex-direction:column;justify-content:space-between}
+    .fa-content h2{font-family:var(--font-heading);font-size:1.35rem;font-weight:600;color:var(--navy);line-height:1.35;margin:.75rem 0}
+    .fa-content p{font-size:.92rem;color:var(--text-secondary);line-height:1.7;flex:1}
+    .fa-meta{display:flex;align-items:center;gap:.6rem;margin-top:1.25rem}
+    .fa-avatar{width:26px;height:26px;border-radius:50%;background:var(--navy);color:var(--green);font-size:.6rem;font-weight:700;font-family:var(--font-heading);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .fa-meta-text{font-size:.78rem;color:var(--text-muted)}
+    .fa-read{display:inline-flex;align-items:center;gap:.3rem;font-size:.85rem;font-weight:500;color:var(--navy);margin-top:1rem;border-bottom:1px solid var(--green);width:fit-content}
+    .fa-visual{background:var(--navy);border-radius:var(--radius-lg);padding:1.25rem;display:flex;flex-direction:column;gap:.6rem;min-height:220px}
+    .kv-label{font-size:.62rem;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em}
+    .kv-board{display:flex;gap:.6rem;flex:1}
+    .kv-col{flex:1;display:flex;flex-direction:column;gap:.35rem}
+    .kv-header{font-size:.6rem;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.05em;padding-bottom:.35rem;border-bottom:1px solid rgba(46,204,113,.2);margin-bottom:.15rem}
+    .kv-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:.4rem .5rem;font-size:.62rem;color:rgba(255,255,255,.65);line-height:1.4}
+    .kv-card.active{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.08)}
+    .kv-card.waiting{border-color:rgba(250,200,75,.25);background:rgba(250,200,75,.05)}
+    .kv-card.done{opacity:.4}
+    .kv-card small{display:block;font-size:.56rem;color:rgba(255,255,255,.35);margin-top:1px}
+    .kv-wip{display:flex;justify-content:space-between;align-items:center;padding-top:.35rem;border-top:1px solid rgba(255,255,255,.07)}
+    .kv-wip-label{font-size:.58rem;color:rgba(255,255,255,.3)}
+    .kv-wip-val{font-size:.62rem;font-weight:600}
+    .wip-ok{color:var(--green)}.wip-warn{color:#FAC775}.wip-over{color:#F09595}
+    .articles-section{padding:2.5rem 0 5rem}
+    .section-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+    .section-row h2{font-family:var(--font-heading);font-size:1.2rem;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:.5rem}
+    .section-row h2 span{color:var(--green)}
+    .art-count{font-size:.8rem;color:var(--text-muted);background:var(--gray-100);padding:.2rem .7rem;border-radius:20px}
+    .cat-articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+    .cat-article-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;text-decoration:none;display:flex;flex-direction:column;gap:.5rem;transition:border-color var(--transition),box-shadow var(--transition),transform var(--transition)}
+    .cat-article-card:hover{border-color:var(--green-border);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+    .cat-article-card h3{font-family:var(--font-heading);font-size:.95rem;font-weight:600;color:var(--navy);line-height:1.4}
+    .cat-article-card p{font-size:.85rem;color:var(--text-secondary);line-height:1.6;flex:1}
+    .card-foot{display:flex;align-items:center;justify-content:space-between;padding-top:.75rem;border-top:1px solid var(--border);margin-top:auto}
+    .card-time{font-size:.75rem;color:var(--text-muted)}
+    .card-arrow{font-size:.8rem;font-weight:500;color:var(--navy)}
+    .cat-article-card.wide{grid-column:span 2;flex-direction:row;gap:1.5rem;align-items:flex-start}
+    .cat-article-card.wide .card-body{flex:1;display:flex;flex-direction:column;gap:.5rem}
+    .cat-article-card.wide .card-visual{width:160px;flex-shrink:0;background:var(--navy);border-radius:var(--radius-md);padding:1rem;display:flex;flex-direction:column;gap:.4rem}
+    .wip-demo{display:flex;flex-direction:column;gap:.35rem;width:100%}
+    .wip-row{display:flex;align-items:center;gap:.4rem}
+    .wip-bar-wrap{flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+    .wip-bar{height:100%;border-radius:3px}
+    .wip-bar.ok{background:var(--green)}.wip-bar.warn{background:#FAC775}.wip-bar.over{background:#F09595}
+    .wip-row-label{font-size:.6rem;color:rgba(255,255,255,.45);width:52px;flex-shrink:0}
+    .wip-row-val{font-size:.6rem;width:28px;text-align:right;flex-shrink:0}
+    .cat-cta{background:var(--navy);border-radius:var(--radius-xl);padding:2.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;margin-top:3rem;flex-wrap:wrap}
+    .cat-cta h3{font-family:var(--font-heading);font-size:1.25rem;font-weight:600;color:var(--white);margin-bottom:.35rem}
+    .cat-cta p{font-size:.9rem;color:rgba(255,255,255,.55)}
+    .cat-cta a{display:inline-block;background:var(--green);color:var(--navy);font-size:.9rem;font-weight:500;padding:.75rem 1.5rem;border-radius:var(--radius-md);white-space:nowrap;transition:background var(--transition);text-decoration:none}
+    .cat-cta a:hover{background:var(--green-dark);color:var(--white)}
+    .nl-section{background:var(--green-light);border-top:1px solid var(--green-border);padding:2.5rem 0}
+    .nl-inner{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+    .nl-text h3{font-family:var(--font-heading);font-size:1.1rem;font-weight:600;color:var(--navy);margin-bottom:.2rem}
+    .nl-text p{font-size:.88rem;color:var(--text-secondary)}
+    .nl-form{display:flex;gap:.6rem;flex:1;min-width:240px;max-width:400px}
+    .nl-form input{flex:1;padding:.65rem 1rem;border-radius:var(--radius-md);border:1px solid var(--green-border);background:var(--white);font-size:.875rem;font-family:var(--font-body);color:var(--text-primary);outline:none}
+    .nl-form input:focus{border-color:var(--green)}
+    .nl-form button{background:var(--navy);color:var(--white);font-size:.875rem;font-weight:500;font-family:var(--font-body);padding:.65rem 1.2rem;border-radius:var(--radius-md);border:none;cursor:pointer;white-space:nowrap}
+    .nl-form button:hover{background:var(--navy-mid)}
+    @media(max-width:860px){.featured-article{grid-template-columns:1fr}.cat-articles-grid{grid-template-columns:1fr 1fr}.cat-article-card.wide{grid-column:span 2}}
+    @media(max-width:640px){.header-nav{display:none}.menu-toggle{display:flex}.cat-articles-grid{grid-template-columns:1fr}.cat-article-card.wide{flex-direction:column;grid-column:span 1}.cat-article-card.wide .card-visual{width:100%}.cat-cta{flex-direction:column;text-align:center}}
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo-area">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="2" fill="#2ECC71"/>
+            <rect x="18" y="2" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="2" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="18" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".25"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Nexo<strong>UP</strong></span>
+          <span class="logo-tagline">Conectando atendimentos inteligentes</span>
+        </div>
+      </a>
+      <nav class="header-nav">
+        <a href="kanban.html" class="nav-link" style="color:var(--navy);font-weight:500">Kanban</a>
+        <a href="boas-praticas.html" class="nav-link">Boas práticas</a>
+        <a href="gestao.html" class="nav-link">Gestão</a>
+        <a href="../index.html#sobre" class="nav-link">Sobre</a>
+        <a href="../index.html#planos" class="btn-header">Contratar sistema</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="kanban.html" class="nav-link">Kanban</a>
+      <a href="boas-praticas.html" class="nav-link">Boas práticas</a>
+      <a href="gestao.html" class="nav-link">Gestão</a>
+      <a href="../index.html#sobre" class="nav-link">Sobre</a>
+      <a href="../index.html#planos" class="btn-header">Contratar sistema</a>
+    </div>
+  </header>
+
+  <nav class="cat-nav" aria-label="Categorias do blog">
+    <div class="container cat-nav-inner">
+      <a href="../index.html#artigos" class="cat-pill"><span class="dot" style="background:#adb5bd"></span> Todos</a>
+      <a href="kanban.html" class="cat-pill active"><span class="dot" style="background:#185FA5"></span> Kanban</a>
+      <a href="boas-praticas.html" class="cat-pill"><span class="dot" style="background:#854F0B"></span> Boas práticas</a>
+      <a href="gestao.html" class="cat-pill"><span class="dot" style="background:#0F6E56"></span> Gestão</a>
+      <a href="artigo.html?artigo=setores-filas-roteamento-nexoup" class="cat-pill"><span class="dot" style="background:#3C3489"></span> NexoUP</a>
+    </div>
+  </nav>
+
+  <section class="cat-hero">
+    <div class="container">
+      <div class="cat-hero-badge">✦ Kanban</div>
+      <h1>Torne o atendimento <span>visível</span> e o fluxo <span>fluido</span></h1>
+      <p>Aprenda a aplicar a metodologia Kanban no atendimento via WhatsApp: quadros visuais, WIP Limits, métricas de fluxo e melhoria contínua com o NexoUP.</p>
+      <div class="cat-hero-stats">
+        <div><span class="cat-stat-num">2</span><span class="cat-stat-label">Artigos nesta categoria</span></div>
+        <div><span class="cat-stat-num">12 min</span><span class="cat-stat-label">Tempo total de leitura</span></div>
+        <div><span class="cat-stat-num">−40%</span><span class="cat-stat-label">Redução no TMA médio</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-strip">
+    <div class="container">
+      <div class="strip-label">Artigo em destaque</div>
+      <a href="artigo.html?artigo=kanban-fila-atendimento-whatsapp" class="featured-article">
+        <div class="fa-content">
+          <div>
+            <span class="cat-badge cat-kanban">Kanban</span>
+            <h2>Como o Kanban revoluciona a fila de atendimento no WhatsApp</h2>
+            <p>Visualize o fluxo de tickets em tempo real, elimine gargalos invisíveis e eleve a produtividade da equipe. Um guia completo para aplicar o método Kanban no CRM de atendimento.</p>
+          </div>
+          <div>
+            <div class="fa-meta">
+              <div class="fa-avatar">AI</div>
+              <span class="fa-meta-text">Adriano Israel · 8 min · 28 mai 2026</span>
+            </div>
+            <span class="fa-read">Ler artigo →</span>
+          </div>
+        </div>
+        <div class="fa-visual" aria-hidden="true">
+          <span class="kv-label">Quadro Kanban — NexoUP</span>
+          <div class="kv-board">
+            <div class="kv-col">
+              <div class="kv-header">Novo</div>
+              <div class="kv-card">#142 João S.<small>Suporte</small></div>
+              <div class="kv-card">#143 Beatriz<small>Financeiro</small></div>
+              <div class="kv-card">#144 Carlos<small>Comercial</small></div>
+              <div class="kv-wip"><span class="kv-wip-label">WIP</span><span class="kv-wip-val wip-warn">3/3</span></div>
+            </div>
+            <div class="kv-col">
+              <div class="kv-header">Andamento</div>
+              <div class="kv-card active">#139 TI<small>Em atend.</small></div>
+              <div class="kv-card active">#140 Ana P.<small>Em atend.</small></div>
+              <div class="kv-wip"><span class="kv-wip-label">WIP</span><span class="kv-wip-val wip-ok">2/3</span></div>
+            </div>
+            <div class="kv-col">
+              <div class="kv-header">Aguardando</div>
+              <div class="kv-card waiting">#136 Marcos<small>Resp. enviada</small></div>
+              <div class="kv-wip"><span class="kv-wip-label">WIP</span><span class="kv-wip-val wip-ok">1/4</span></div>
+            </div>
+            <div class="kv-col">
+              <div class="kv-header">Resolvido</div>
+              <div class="kv-card done">#137<small>Fechado</small></div>
+              <div class="kv-card done">#135<small>Fechado</small></div>
+              <div class="kv-card done">#133<small>Fechado</small></div>
+              <div class="kv-wip"><span class="kv-wip-label">Hoje</span><span class="kv-wip-val" style="color:var(--green)">3 ✓</span></div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="articles-section">
+    <div class="container">
+      <div class="section-row">
+        <h2><span>✦</span> Todos os artigos</h2>
+        <span class="art-count">2 artigos</span>
+      </div>
+
+      <div class="cat-articles-grid">
+
+        <a href="artigo.html?artigo=kanban-fila-atendimento-whatsapp" class="cat-article-card">
+          <span class="cat-badge cat-kanban">Kanban</span>
+          <h3>Como o Kanban revoluciona a fila de atendimento no WhatsApp</h3>
+          <p>Visualize o fluxo de tickets, elimine gargalos e eleve a produtividade com quadros Kanban configuráveis por setor.</p>
+          <div class="card-foot">
+            <span class="card-time">⏱ 8 min · Adriano Israel</span>
+            <span class="card-arrow">Ler →</span>
+          </div>
+        </a>
+
+        <a href="artigo.html?artigo=wip-limits-trabalho-em-progresso" class="cat-article-card wide">
+          <div class="card-visual" aria-hidden="true">
+            <span style="font-size:.58rem;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">WIP por coluna</span>
+            <div class="wip-demo">
+              <div class="wip-row">
+                <span class="wip-row-label">Novo</span>
+                <div class="wip-bar-wrap"><div class="wip-bar ok" style="width:40%"></div></div>
+                <span class="wip-row-val" style="color:var(--green);font-size:.6rem">2/5</span>
+              </div>
+              <div class="wip-row">
+                <span class="wip-row-label">Andamento</span>
+                <div class="wip-bar-wrap"><div class="wip-bar warn" style="width:90%"></div></div>
+                <span class="wip-row-val" style="color:#FAC775;font-size:.6rem">3/3</span>
+              </div>
+              <div class="wip-row">
+                <span class="wip-row-label">Aguardando</span>
+                <div class="wip-bar-wrap"><div class="wip-bar over" style="width:100%"></div></div>
+                <span class="wip-row-val" style="color:#F09595;font-size:.6rem">5/4!</span>
+              </div>
+              <div class="wip-row">
+                <span class="wip-row-label">Resolvido</span>
+                <div class="wip-bar-wrap"><div class="wip-bar ok" style="width:60%"></div></div>
+                <span class="wip-row-val" style="color:var(--green);font-size:.6rem">6 ✓</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="cat-badge cat-kanban">Kanban</span>
+            <h3>WIP limits: por que limitar o trabalho em progresso muda tudo</h3>
+            <p>Defina limites de trabalho em progresso por coluna e por operador para aumentar o foco, reduzir erros e expor gargalos de forma objetiva.</p>
+            <div class="card-foot">
+              <span class="card-time">⏱ 4 min · Adriano Israel</span>
+              <span class="card-arrow">Ler →</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="cat-article-card" style="opacity:.5;cursor:default;border-style:dashed">
+          <span class="cat-badge cat-kanban">Kanban</span>
+          <h3>Métricas de fluxo: Lead Time, Cycle Time e Throughput na prática</h3>
+          <p>Como coletar e interpretar as três métricas fundamentais do Kanban para melhoria contínua.</p>
+          <div class="card-foot"><span class="card-time">Em breve</span><span class="card-arrow" style="color:var(--text-muted)">🔒</span></div>
+        </div>
+
+        <div class="cat-article-card" style="opacity:.5;cursor:default;border-style:dashed">
+          <span class="cat-badge cat-kanban">Kanban</span>
+          <h3>Cerimônias Kanban adaptadas para equipes de atendimento</h3>
+          <p>Daily standup, revisão de fluxo e retrospectiva adaptados para times de suporte via WhatsApp.</p>
+          <div class="card-foot"><span class="card-time">Em breve</span><span class="card-arrow" style="color:var(--text-muted)">🔒</span></div>
+        </div>
+
+        <div class="cat-article-card" style="opacity:.5;cursor:default;border-style:dashed">
+          <span class="cat-badge cat-kanban">Kanban</span>
+          <h3>Kanban vs Scrum no atendimento: qual usar e quando</h3>
+          <p>Uma comparação honesta entre as duas metodologias ágeis para ajudar na escolha mais adequada.</p>
+          <div class="card-foot"><span class="card-time">Em breve</span><span class="card-arrow" style="color:var(--text-muted)">🔒</span></div>
+        </div>
+
+      </div>
+
+      <div class="cat-cta">
+        <div>
+          <h3>Veja o Kanban funcionando no NexoUP</h3>
+          <p>Quadro visual configurável, WIP Limits por coluna, alertas de SLA e métricas de fluxo em tempo real.</p>
+        </div>
+        <a href="../index.html#planos">Testar 14 dias grátis →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="nl-section">
+    <div class="container nl-inner">
+      <div class="nl-text">
+        <h3>📬 Novidades toda semana</h3>
+        <p>Artigos sobre Kanban e atendimento diretamente no seu e-mail. Grátis.</p>
+      </div>
+      <form class="nl-form" onsubmit="handleNL(event)">
+        <input type="email" id="nlEmail" placeholder="contato@nexoup.com.br" required />
+        <button type="submit">Inscrever-se</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">Nexo<strong>UP</strong></div>
+      <p class="footer-tagline">Conectando atendimentos inteligentes</p>
+      <nav class="footer-nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#planos">Planos</a>
+        <a href="mailto:adriano.israel@live.com">Contato</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 NexoUP. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <div id="toast" style="position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;font-size:.875rem;padding:.75rem 1.25rem;border-radius:var(--radius-md);border-left:3px solid var(--green);box-shadow:var(--shadow-md);z-index:999;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none"></div>
+
+  <script>
+    const hdr=document.getElementById('siteHeader');
+    window.addEventListener('scroll',()=>{hdr.style.boxShadow=window.scrollY>8?'0 2px 16px rgba(27,46,60,.08)':'none'},{passive:true});
+    const btn=document.getElementById('menuToggle'),nav=document.getElementById('mobileNav');
+    btn.addEventListener('click',()=>{const o=nav.classList.toggle('open');btn.setAttribute('aria-expanded',o);nav.setAttribute('aria-hidden',!o)});
+    function handleNL(e){e.preventDefault();const t=document.getElementById('toast');t.textContent='✓ Inscrição realizada! Bem-vindo(a) ao NexoUP Blog.';t.style.opacity='1';t.style.transform='translateY(0)';document.getElementById('nlEmail').value='';setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(12px)'},3500)}
+  </script>
+
+</body>
+</html>

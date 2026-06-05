@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexoUP Blog</title>
+  <meta name="description" content="Blog NexoUP — CRM de Atendimento WhatsApp" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Marked.js (Markdown parser) — CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+
+  <style>
+    /* =====================================================
+       CSS VARIABLES & RESET
+    ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:        #2ECC71;
+      --green-dark:   #27AE60;
+      --green-light:  #eafaf2;
+      --green-border: #b7ecd0;
+      --navy:         #1B2E3C;
+      --navy-mid:     #243d50;
+      --white:        #ffffff;
+      --gray-50:      #f8f9fa;
+      --gray-100:     #f1f3f5;
+      --gray-200:     #e9ecef;
+      --gray-400:     #adb5bd;
+      --text-primary: #1B2E3C;
+      --text-secondary: #5a6a77;
+      --text-muted:   #8fa0ae;
+      --border:       #e2e8f0;
+      --radius-sm:    6px;
+      --radius-md:    10px;
+      --radius-lg:    16px;
+      --radius-xl:    24px;
+      --shadow-md:    0 4px 16px rgba(27,46,60,.1);
+      --font-heading: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --transition:   0.18s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* =====================================================
+       LAYOUT
+    ===================================================== */
+    .container {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .article-container {
+      max-width: 780px;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--navy);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-icon svg { width: 20px; height: 20px; }
+
+    .logo-name {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--navy);
+      display: block;
+      line-height: 1.2;
+    }
+
+    .logo-name strong { color: var(--green); font-weight: 700; }
+
+    .logo-tagline {
+      font-size: .62rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      font-size: .875rem;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+    }
+
+    .nav-link:hover { color: var(--navy); }
+
+    .btn-header {
+      background: var(--green);
+      color: var(--navy);
+      font-size: .85rem;
+      font-weight: 500;
+      padding: .5rem 1.1rem;
+      border-radius: var(--radius-md);
+      transition: background var(--transition);
+    }
+
+    .btn-header:hover { background: var(--green-dark); }
+
+    /* Mobile menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+      background: var(--white);
+      padding: .5rem 0;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav .nav-link,
+    .mobile-nav .btn-header {
+      display: block;
+      padding: .75rem 1.5rem;
+      font-size: .95rem;
+      border-radius: 0;
+    }
+
+    .mobile-nav .btn-header {
+      margin: .5rem 1.5rem;
+      text-align: center;
+      border-radius: var(--radius-md);
+    }
+
+    /* =====================================================
+       LOADING / ERROR STATES
+    ===================================================== */
+    .state-wrap {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .state-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: var(--navy);
+    }
+
+    .state-sub {
+      font-size: .9rem;
+      color: var(--text-secondary);
+      max-width: 360px;
+    }
+
+    .btn-back {
+      display: inline-block;
+      margin-top: .5rem;
+      background: var(--navy);
+      color: var(--white);
+      font-size: .875rem;
+      font-weight: 500;
+      padding: .6rem 1.25rem;
+      border-radius: var(--radius-md);
+      transition: background var(--transition);
+    }
+
+    .btn-back:hover { background: var(--navy-mid); }
+
+    /* =====================================================
+       ARTICLE LAYOUT
+    ===================================================== */
+    #article-wrap { display: none; }
+
+    .article-main { padding: 3rem 0 5rem; }
+
+    .article-meta-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      font-size: .85rem;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+    }
+
+    .back-link:hover { color: var(--navy); }
+
+    /* Category badge */
+    .cat-badge {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 500;
+      padding: .2rem .8rem;
+      border-radius: 20px;
+    }
+
+    .cat-kanban  { background: #E6F1FB; color: #185FA5; }
+    .cat-gestao  { background: #E1F5EE; color: #0F6E56; }
+    .cat-boas    { background: #FAEEDA; color: #854F0B; }
+    .cat-nexoup  { background: #EEEDFE; color: #3C3489; }
+    .cat-default { background: var(--gray-100); color: var(--text-secondary); }
+
+    /* Article title */
+    .article-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Byline */
+    .article-byline {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .author-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--green);
+      font-size: .68rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--font-heading);
+    }
+
+    .byline-author {
+      display: block;
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .byline-meta {
+      display: block;
+      font-size: .78rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* =====================================================
+       MARKDOWN RENDERED BODY — .md-body
+    ===================================================== */
+    .md-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+    }
+
+    /* Paragraphs */
+    .md-body p {
+      margin-bottom: 1.3rem;
+    }
+
+    /* Headings */
+    .md-body h1 {
+      /* H1 is used as title — hide if it appears in body */
+      display: none;
+    }
+
+    .md-body h2 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 2.5rem 0 .75rem;
+      padding-top: .25rem;
+    }
+
+    .md-body h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 2rem 0 .5rem;
+    }
+
+    .md-body h4 {
+      font-family: var(--font-heading);
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 1.5rem 0 .4rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    /* Strong & em */
+    .md-body strong { color: var(--navy); font-weight: 600; }
+    .md-body em { font-style: italic; color: var(--text-secondary); }
+
+    /* Links */
+    .md-body a {
+      color: #185FA5;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color var(--transition);
+    }
+
+    .md-body a:hover { color: var(--navy); }
+
+    /* Lists */
+    .md-body ul,
+    .md-body ol {
+      margin: 0 0 1.3rem 1.5rem;
+    }
+
+    .md-body li {
+      margin-bottom: .45rem;
+      line-height: 1.7;
+    }
+
+    .md-body li > ul,
+    .md-body li > ol {
+      margin-top: .3rem;
+      margin-bottom: .3rem;
+    }
+
+    /* Checkboxes (- [ ] syntax) */
+    .md-body input[type="checkbox"] {
+      accent-color: var(--green);
+      margin-right: .4rem;
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Horizontal rule — separator */
+    .md-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* First hr after metadata lines: invisible (used as separator after frontmatter) */
+    .md-body > hr:first-of-type {
+      margin-top: 0;
+      border-color: transparent;
+    }
+
+    /* Blockquotes — used for tips / highlights */
+    .md-body blockquote {
+      border-left: 3px solid var(--green);
+      background: var(--green-light);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: .9rem 1.25rem;
+      margin: 1.75rem 0;
+      color: var(--text-primary);
+    }
+
+    .md-body blockquote p {
+      margin: 0;
+      font-size: .94rem;
+      line-height: 1.65;
+    }
+
+    /* Warning blockquote (contains ⚠️) */
+    .md-body blockquote.warn {
+      border-left-color: #854F0B;
+      background: #FAEEDA;
+    }
+
+    /* Tip blockquote (contains 💡) */
+    .md-body blockquote.tip {
+      border-left-color: #185FA5;
+      background: #E6F1FB;
+    }
+
+    /* Code blocks */
+    .md-body pre {
+      background: var(--navy);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      margin: 1.75rem 0;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .md-body pre code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: .82rem;
+      line-height: 1.65;
+      color: #a8d8a8;
+      background: none;
+      padding: 0;
+      border: none;
+    }
+
+    /* Inline code */
+    .md-body code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: .84em;
+      background: var(--gray-100);
+      color: #3C3489;
+      padding: .15em .4em;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    /* Tables */
+    .md-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.75rem 0;
+      font-size: .875rem;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .md-body thead tr {
+      background: var(--gray-50);
+    }
+
+    .md-body th {
+      padding: .65rem 1rem;
+      text-align: left;
+      font-weight: 500;
+      color: var(--navy);
+      border-bottom: 1px solid var(--border);
+      font-size: .85rem;
+    }
+
+    .md-body td {
+      padding: .6rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    .md-body tbody tr:last-child td { border-bottom: none; }
+
+    .md-body tbody tr:nth-child(even) {
+      background: var(--gray-50);
+    }
+
+    /* Images */
+    .md-body img {
+      border-radius: var(--radius-lg);
+      margin: 1.75rem auto;
+      max-width: 100%;
+    }
+
+    /* Lead paragraph — first <p> after hr (after frontmatter) */
+    .md-body .lead-para {
+      font-size: 1.08rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      border-left: 3px solid var(--green);
+      padding-left: 1.25rem;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    /* Metadata lines (bold key: value) — hidden in body */
+    .meta-line { display: none; }
+
+    /* =====================================================
+       READING PROGRESS BAR
+    ===================================================== */
+    .progress-bar {
+      position: fixed;
+      top: 68px;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--green);
+      z-index: 99;
+      transition: width .1s linear;
+    }
+
+    /* =====================================================
+       TABLE OF CONTENTS
+    ===================================================== */
+    .toc-wrap {
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 1rem 1.25rem;
+      margin: 0 0 2.5rem;
+    }
+
+    .toc-title {
+      font-family: var(--font-heading);
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: .6rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: .2rem;
+    }
+
+    .toc-list li a {
+      font-size: .85rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: baseline;
+      gap: .4rem;
+      padding: .15rem 0;
+      transition: color var(--transition);
+    }
+
+    .toc-list li a:hover { color: var(--green-dark); text-decoration: none; }
+
+    .toc-list li a::before {
+      content: '—';
+      color: var(--green);
+      font-size: .7rem;
+      flex-shrink: 0;
+    }
+
+    /* =====================================================
+       CTA BLOCK
+    ===================================================== */
+    .article-cta {
+      background: var(--navy);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      text-align: center;
+      margin: 3rem 0 2rem;
+    }
+
+    .article-cta h3 {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: .5rem;
+    }
+
+    .article-cta p {
+      font-size: .9rem;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 1.25rem;
+    }
+
+    .article-cta a {
+      display: inline-block;
+      background: var(--green);
+      color: var(--navy);
+      font-size: .95rem;
+      font-weight: 500;
+      padding: .75rem 1.75rem;
+      border-radius: var(--radius-md);
+      transition: background var(--transition);
+      text-decoration: none;
+    }
+
+    .article-cta a:hover { background: var(--green-dark); color: var(--white); }
+
+    /* =====================================================
+       RELATED ARTICLES
+    ===================================================== */
+    .related-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .related-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .85rem;
+    }
+
+    .related-card {
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+
+    .related-card:hover {
+      border-color: var(--green-border);
+      box-shadow: var(--shadow-md);
+    }
+
+    .related-card .r-cat {
+      font-size: .7rem;
+      font-weight: 500;
+      margin-bottom: .4rem;
+    }
+
+    .related-card h4 {
+      font-family: var(--font-heading);
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: .3rem;
+    }
+
+    .related-card .r-time {
+      font-size: .75rem;
+      color: var(--text-muted);
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    .site-footer {
+      background: var(--navy);
+      padding: 2.5rem 0;
+    }
+
+    .footer-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .65rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--white);
+    }
+
+    .footer-logo strong { color: var(--green); }
+
+    .footer-tagline {
+      font-size: .78rem;
+      color: rgba(255,255,255,.4);
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: .3rem 0;
+    }
+
+    .footer-nav a {
+      font-size: .78rem;
+      color: rgba(255,255,255,.5);
+      transition: color var(--transition);
+    }
+
+    .footer-nav a:hover { color: var(--white); }
+
+    .footer-copy { font-size: .72rem; color: rgba(255,255,255,.22); }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+    @media (max-width: 640px) {
+      .header-nav { display: none; }
+      .menu-toggle { display: flex; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+      .article-cta { padding: 1.75rem 1.25rem; }
+    }
+
+    @media (max-width: 480px) {
+      .related-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- READING PROGRESS -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo-area">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="2" fill="#2ECC71"/>
+            <rect x="18" y="2" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="2" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="18" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".25"/>
+          </svg>
+        </div>
+        <div>
+          <span class="logo-name">Nexo<strong>UP</strong></span>
+          <span class="logo-tagline">Conectando atendimentos inteligentes</span>
+        </div>
+      </a>
+      <nav class="header-nav" aria-label="Navegação principal">
+        <a href="kanban.html" class="nav-link">Kanban</a>
+        <a href="boas-praticas.html" class="nav-link">Boas práticas</a>
+        <a href="gestao.html" class="nav-link">Gestão</a>
+        <a href="../index.html#sobre" class="nav-link">Sobre</a>
+        <a href="../index.html#planos" class="btn-header">Contratar sistema</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="kanban.html" class="nav-link">Kanban</a>
+      <a href="boas-praticas.html" class="nav-link">Boas práticas</a>
+      <a href="gestao.html" class="nav-link">Gestão</a>
+      <a href="../index.html#sobre" class="nav-link">Sobre</a>
+      <a href="../index.html#planos" class="btn-header">Contratar sistema</a>
+    </div>
+  </header>
+
+  <!-- LOADING STATE -->
+  <div class="state-wrap" id="stateLoading">
+    <div class="spinner"></div>
+    <p class="state-title">Carregando artigo…</p>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div class="state-wrap" id="stateError" style="display:none">
+    <p style="font-size:2rem">😕</p>
+    <p class="state-title">Artigo não encontrado</p>
+    <p class="state-sub" id="errorMsg">Verifique o endereço ou volte para o blog.</p>
+    <a href="../index.html" class="btn-back">← Voltar ao blog</a>
+  </div>
+
+  <!-- ARTICLE CONTENT (populated by JS) -->
+  <div id="article-wrap">
+    <main class="article-main">
+      <div class="container article-container">
+
+        <div class="article-meta-top">
+          <a href="../index.html#artigos" class="back-link">← Voltar ao blog</a>
+          <span class="cat-badge" id="catBadge"></span>
+        </div>
+
+        <h1 class="article-title" id="articleTitle"></h1>
+
+        <div class="article-byline">
+          <div class="author-avatar" id="authorAvatar"></div>
+          <div>
+            <span class="byline-author" id="authorName"></span>
+            <span class="byline-meta" id="articleMeta"></span>
+          </div>
+        </div>
+
+        <!-- Table of contents -->
+        <nav class="toc-wrap" id="tocWrap" aria-label="Índice do artigo">
+          <div class="toc-title">Neste artigo</div>
+          <ul class="toc-list" id="tocList"></ul>
+        </nav>
+
+        <!-- Rendered markdown -->
+        <div class="md-body" id="mdBody"></div>
+
+        <!-- CTA -->
+        <div class="article-cta">
+          <h3>Experimente o NexoUP gratuitamente</h3>
+          <p>14 dias grátis, sem cartão de crédito. Veja na prática tudo que você leu neste artigo.</p>
+          <a href="../index.html#planos">Começar agora →</a>
+        </div>
+
+        <!-- Related articles -->
+        <section class="related-section" id="relatedSection">
+          <h2 class="related-title">Continue lendo</h2>
+          <div class="related-grid" id="relatedGrid"></div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">Nexo<strong>UP</strong></div>
+      <p class="footer-tagline">Conectando atendimentos inteligentes</p>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#planos">Planos</a>
+        <a href="mailto:adriano.israel@live.com">Contato</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 NexoUP. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+  /* =====================================================
+     ARTICLE CATALOG
+     Add new articles here to appear in "Continue lendo"
+  ===================================================== */
+  const ARTICLES = [
+    {
+      slug: 'kanban-fila-atendimento-whatsapp',
+      title: 'Como o Kanban revoluciona a fila de atendimento no WhatsApp',
+      cat: 'Kanban',
+      time: '8 min'
+    },
+    {
+      slug: '5-metricas-essenciais-gestao-atendimento',
+      title: '5 métricas essenciais para gestão de atendimento ao cliente',
+      cat: 'Gestão',
+      time: '6 min'
+    },
+    {
+      slug: 'etiqueta-boas-praticas-atendimento-whatsapp',
+      title: 'Etiqueta e boas práticas no atendimento via WhatsApp',
+      cat: 'Boas práticas',
+      time: '5 min'
+    },
+    {
+      slug: 'setores-filas-roteamento-nexoup',
+      title: 'Setores, filas e roteamento inteligente no NexoUP',
+      cat: 'NexoUP',
+      time: '7 min'
+    },
+    {
+      slug: 'wip-limits-trabalho-em-progresso',
+      title: 'WIP limits: por que limitar o trabalho em progresso muda tudo',
+      cat: 'Kanban',
+      time: '4 min'
+    },
+    {
+      slug: 'treinamento-operadores-alta-performance',
+      title: 'Treinamento de operadores: da integração à alta performance',
+      cat: 'Boas práticas',
+      time: '9 min'
+    },
+    {
+      slug: 'zapi-meta-twilio-painel-unificado',
+      title: 'Z-API, Meta e Twilio unificados em um só painel',
+      cat: 'Gestão',
+      time: '6 min'
+    }
+  ];
+
+  /* =====================================================
+     CATEGORY HELPERS
+  ===================================================== */
+  const CAT_CLASS = {
+    'Kanban':        'cat-kanban',
+    'Gestão':        'cat-gestao',
+    'Boas práticas': 'cat-boas',
+    'NexoUP':        'cat-nexoup'
+  };
+
+  function catClass(cat) {
+    return CAT_CLASS[cat] || 'cat-default';
+  }
+
+  /* =====================================================
+     METADATA EXTRACTION
+     Reads lines like:  **Categoria:** Kanban
+  ===================================================== */
+  function extractMeta(text) {
+    const meta = { title: '', categoria: '', autor: '', data: '', leitura: '', body: '' };
+
+    // Title = first # heading
+    const titleMatch = text.match(/^#\s+(.+)/m);
+    if (titleMatch) meta.title = titleMatch[1].trim();
+
+    // Key-value lines: **Key:** Value
+    const kvRe = /^\*\*(.+?):\*\*\s*(.+)$/gm;
+    let m;
+    while ((m = kvRe.exec(text)) !== null) {
+      const key = m[1].trim().toLowerCase();
+      const val = m[2].trim();
+      if (key === 'categoria')  meta.categoria = val;
+      if (key === 'autor')      meta.autor     = val;
+      if (key === 'data')       meta.data      = val;
+      if (key === 'leitura')    meta.leitura   = val;
+    }
+
+    // Body: everything after the first --- separator
+    // Remove the first block (title + meta lines + first hr)
+    const firstHr = text.indexOf('\n---\n');
+    if (firstHr !== -1) {
+      meta.body = text.slice(firstHr + 5).trim();
+    } else {
+      meta.body = text;
+    }
+
+    return meta;
+  }
+
+  /* =====================================================
+     AUTHOR AVATAR INITIALS
+  ===================================================== */
+  function initials(name) {
+    return name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
+  }
+
+  /* =====================================================
+     TABLE OF CONTENTS BUILDER
+  ===================================================== */
+  function buildTOC(bodyEl) {
+    const headings = bodyEl.querySelectorAll('h2');
+    const tocList  = document.getElementById('tocList');
+    const tocWrap  = document.getElementById('tocWrap');
+
+    if (headings.length < 2) { tocWrap.style.display = 'none'; return; }
+
+    headings.forEach((h, i) => {
+      const id = 'section-' + i;
+      h.id = id;
+      const li = document.createElement('li');
+      const a  = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.textContent;
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+  }
+
+  /* =====================================================
+     BLOCKQUOTE DECORATION
+     Adds .warn or .tip class based on emoji content
+  ===================================================== */
+  function decorateBlockquotes(bodyEl) {
+    bodyEl.querySelectorAll('blockquote').forEach(bq => {
+      const text = bq.textContent;
+      if (text.includes('⚠️')) bq.classList.add('warn');
+      else if (text.includes('💡')) bq.classList.add('tip');
+    });
+  }
+
+  /* =====================================================
+     LEAD PARAGRAPH
+     First <p> after rendered body gets .lead-para class
+  ===================================================== */
+  function markLeadParagraph(bodyEl) {
+    const first = bodyEl.querySelector('p:first-of-type');
+    if (first) first.classList.add('lead-para');
+  }
+
+  /* =====================================================
+     HIDE METADATA LINES IN BODY
+     Lines like "Categoria: Kanban" that Marked renders
+     as <p><strong>Categoria:</strong> Kanban</p>
+  ===================================================== */
+  function hideMetaLines(bodyEl) {
+    const metaKeys = ['categoria', 'autor', 'data', 'leitura'];
+    bodyEl.querySelectorAll('p').forEach(p => {
+      const strong = p.querySelector('strong');
+      if (strong) {
+        const keyText = strong.textContent.replace(':', '').trim().toLowerCase();
+        if (metaKeys.includes(keyText)) {
+          p.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  /* =====================================================
+     RELATED ARTICLES
+  ===================================================== */
+  function buildRelated(currentSlug) {
+    const others = ARTICLES.filter(a => a.slug !== currentSlug);
+    // Pick up to 3, shuffled
+    const picked = others.sort(() => Math.random() - .5).slice(0, 3);
+    const grid   = document.getElementById('relatedGrid');
+
+    picked.forEach(art => {
+      const card = document.createElement('a');
+      card.href  = 'artigo.html?artigo=' + art.slug;
+      card.className = 'related-card';
+      card.innerHTML = `
+        <div class="r-cat cat-badge ${catClass(art.cat)}">${art.cat}</div>
+        <h4>${art.title}</h4>
+        <span class="r-time">⏱ ${art.time}</span>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  /* =====================================================
+     READING PROGRESS BAR
+  ===================================================== */
+  function initProgressBar() {
+    const bar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const docH   = document.documentElement.scrollHeight - window.innerHeight;
+      const pct    = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+      bar.style.width = Math.min(pct, 100) + '%';
+    }, { passive: true });
+  }
+
+  /* =====================================================
+     HEADER SHADOW
+  ===================================================== */
+  function initHeaderShadow() {
+    const header = document.getElementById('siteHeader');
+    window.addEventListener('scroll', () => {
+      header.style.boxShadow = window.scrollY > 8
+        ? '0 2px 16px rgba(27,46,60,.08)'
+        : 'none';
+    }, { passive: true });
+  }
+
+  /* =====================================================
+     MOBILE MENU
+  ===================================================== */
+  function initMobileMenu() {
+    const btn = document.getElementById('menuToggle');
+    const nav = document.getElementById('mobileNav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+      nav.setAttribute('aria-hidden', !open);
+    });
+    nav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        nav.setAttribute('aria-hidden', 'true');
+      });
+    });
+  }
+
+  /* =====================================================
+     CONFIGURE MARKED OPTIONS
+  ===================================================== */
+  function setupMarked() {
+    marked.setOptions({
+      gfm: true,          // GitHub Flavored Markdown
+      breaks: false,      // Require double newline for <br>
+      pedantic: false,
+    });
+  }
+
+  /* =====================================================
+     MAIN — LOAD & RENDER
+  ===================================================== */
+  async function loadArticle() {
+    // --- Read ?artigo=slug from URL ---
+    const params = new URLSearchParams(window.location.search);
+    const slug   = params.get('artigo') || '';
+
+    const elLoading = document.getElementById('stateLoading');
+    const elError   = document.getElementById('stateError');
+    const elArticle = document.getElementById('article-wrap');
+    const elErrMsg  = document.getElementById('errorMsg');
+
+    if (!slug) {
+      elLoading.style.display = 'none';
+      elError.style.display   = 'flex';
+      elErrMsg.textContent    = 'Nenhum artigo especificado. Use ?artigo=nome-do-arquivo (sem .md)';
+      return;
+    }
+
+    // --- Fetch the .md file ---
+    const url = slug + '.md';
+    let raw;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      raw = await res.text();
+    } catch (err) {
+      elLoading.style.display = 'none';
+      elError.style.display   = 'flex';
+      elErrMsg.textContent    = 'Arquivo "' + url + '" não encontrado. Verifique se o .md está na mesma pasta que artigo.html.';
+      return;
+    }
+
+    // --- Extract metadata ---
+    setupMarked();
+    const meta = extractMeta(raw);
+
+    // --- Update <title> & <meta description> ---
+    if (meta.title) {
+      document.title = meta.title + ' — NexoUP Blog';
+      const descEl = document.querySelector('meta[name="description"]');
+      if (descEl) descEl.setAttribute('content', meta.title + ' — NexoUP Blog');
+    }
+
+    // --- Populate header fields ---
+    document.getElementById('articleTitle').textContent = meta.title || 'Artigo';
+
+    const badge = document.getElementById('catBadge');
+    badge.textContent = meta.categoria || 'Blog';
+    badge.className   = 'cat-badge ' + catClass(meta.categoria);
+
+    const av = document.getElementById('authorAvatar');
+    av.textContent = initials(meta.autor || 'NX');
+
+    document.getElementById('authorName').textContent = meta.autor || 'NexoUP';
+    document.getElementById('articleMeta').textContent =
+      [meta.data, meta.leitura ? meta.leitura + ' de leitura' : ''].filter(Boolean).join(' · ');
+
+    // --- Render Markdown body ---
+    const bodyEl = document.getElementById('mdBody');
+    bodyEl.innerHTML = marked.parse(meta.body);
+
+    // --- Post-process rendered HTML ---
+    hideMetaLines(bodyEl);
+    markLeadParagraph(bodyEl);
+    decorateBlockquotes(bodyEl);
+    buildTOC(bodyEl);
+    buildRelated(slug);
+
+    // --- Show article, hide loader ---
+    elLoading.style.display = 'none';
+    elArticle.style.display = 'block';
+
+    // Scroll to top (in case navigating from another article)
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  // --- Init ---
+  document.addEventListener('DOMContentLoaded', () => {
+    initProgressBar();
+    initHeaderShadow();
+    initMobileMenu();
+    loadArticle();
+  });
+  </script>
+
+</body>
+</html>

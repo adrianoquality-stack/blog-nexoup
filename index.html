@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexoUP — CRM de Atendimento WhatsApp</title>
+  <meta name="description" content="Blog e sistema NexoUP: CRM completo para atendimento via WhatsApp com tickets, setores, múltiplos gateways e Google Drive. Conteúdo sobre Kanban, gestão e boas práticas." />
+  <meta name="keywords" content="CRM WhatsApp, atendimento ao cliente, Kanban, gestão de tickets, NexoUP" />
+  <meta property="og:title" content="NexoUP — CRM de Atendimento WhatsApp" />
+  <meta property="og:description" content="Conectando atendimentos inteligentes. Blog e sistema NexoUP." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/styles/main.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="logo-area">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="2" fill="#2ECC71"/>
+            <rect x="18" y="2" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="2" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".5"/>
+            <rect x="18" y="18" width="12" height="12" rx="2" fill="#2ECC71" opacity=".25"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Nexo<strong>UP</strong></span>
+          <span class="logo-tagline">Conectando atendimentos inteligentes</span>
+        </div>
+      </a>
+      <nav class="header-nav" aria-label="Navegação principal">
+        <a href="artigos/kanban.html" class="nav-link">Kanban</a>
+        <a href="artigos/boas-praticas.html" class="nav-link">Boas práticas</a>
+        <a href="artigos/gestao.html" class="nav-link">Gestão</a>
+        <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="#planos" class="btn-header">Contratar sistema</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="artigos/kanban.html" class="nav-link">Kanban</a>
+      <a href="artigos/boas-praticas.html" class="nav-link">Boas práticas</a>
+      <a href="artigos/gestao.html" class="nav-link">Gestão</a>
+      <a href="#sobre" class="nav-link">Sobre</a>
+      <a href="#planos" class="btn-header">Contratar sistema</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        CRM para WhatsApp
+      </div>
+      <h1 class="hero-title">Atendimento que <span class="accent">conecta</span>,<br>gestão que <span class="accent">transforma</span></h1>
+      <p class="hero-sub">Conteúdo especializado em CRM, metodologia Kanban e boas práticas de atendimento ao cliente — direto da equipe que criou o NexoUP.</p>
+      <div class="hero-cta-row">
+        <a href="#planos" class="btn-primary">Contratar o sistema NexoUP</a>
+        <a href="#sobre" class="btn-ghost">Ver recursos →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">+120</span>
+          <span class="stat-label">Artigos publicados</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">3 mil</span>
+          <span class="stat-label">Leitores mensais</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Gateways WhatsApp</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bg-grid" aria-hidden="true"></div>
+  </section>
+
+  <!-- ARTIGO DESTAQUE -->
+  <section class="section" id="artigos">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="title-icon">✦</span> Artigo em destaque
+        </h2>
+      </div>
+      <div class="featured-card">
+        <div class="featured-content">
+          <span class="cat-badge cat-kanban">Kanban</span>
+          <h2>Como o Kanban revoluciona a fila de atendimento no WhatsApp</h2>
+          <p>Aprenda a aplicar os princípios do método Kanban diretamente nos tickets do seu CRM. Visualize o fluxo, identifique gargalos e eleve a produtividade da sua equipe de suporte com o NexoUP.</p>
+          <div class="article-meta">
+            <div class="author-avatar">AI</div>
+            <span class="meta-text">Adriano Israel · 8 min de leitura · 28 mai 2026</span>
+          </div>
+          <a href="artigos/artigo.html?artigo=kanban-fila-atendimento-whatsapp" class="read-link">Ler artigo completo →</a>
+        </div>
+        <div class="featured-visual" aria-label="Demonstração do quadro Kanban NexoUP">
+          <div class="kanban-label">Quadro Kanban — NexoUP</div>
+          <div class="kanban-board">
+            <div class="kanban-col">
+              <div class="kanban-col-header">Novo</div>
+              <div class="kanban-card">
+                <span class="ticket-id">#142</span>
+                <span class="ticket-name accent-text">João Silva</span>
+              </div>
+              <div class="kanban-card">
+                <span class="ticket-id">#143</span>
+                <span class="ticket-name muted-text">Beatriz M.</span>
+              </div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-header">Em andamento</div>
+              <div class="kanban-card active-card">
+                <span class="ticket-id">#139</span>
+                <span class="ticket-name accent-text">Suporte TI</span>
+              </div>
+            </div>
+            <div class="kanban-col">
+              <div class="kanban-col-header">Resolvido</div>
+              <div class="kanban-card done-card">
+                <span class="ticket-id">#137</span>
+                <span class="ticket-name muted-text">Finalizado</span>
+              </div>
+              <div class="kanban-card done-card">
+                <span class="ticket-id">#135</span>
+                <span class="ticket-name muted-text">Finalizado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRADE DE ARTIGOS -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-icon">✦</span> Mais lidos esta semana</h2>
+      </div>
+      <div class="articles-grid">
+
+        <article class="article-card" onclick="location.href='artigos/artigo.html?artigo=5-metricas-essenciais-gestao-atendimento'" style="cursor:pointer">
+          <span class="cat-badge cat-gestao">Gestão</span>
+          <h3>5 métricas essenciais para gestão de atendimento ao cliente</h3>
+          <p>TMA, CSAT, NPS, FCR e SLA: o que cada indicador revela sobre a saúde do seu suporte.</p>
+          <div class="card-footer">
+            <span class="read-time">⏱ 6 min</span>
+            <a href="artigos/artigo.html?artigo=5-metricas-essenciais-gestao-atendimento" class="read-link-sm">Ler →</a>
+          </div>
+        </article>
+
+        <article class="article-card" onclick="location.href='artigos/artigo.html?artigo=etiqueta-boas-praticas-atendimento-whatsapp'" style="cursor:pointer">
+          <span class="cat-badge cat-boas">Boas práticas</span>
+          <h3>Etiqueta e boas práticas no atendimento via WhatsApp</h3>
+          <p>Tom de voz, tempo de resposta e como humanizar o atendimento digital.</p>
+          <div class="card-footer">
+            <span class="read-time">⏱ 5 min</span>
+            <a href="artigos/artigo.html?artigo=etiqueta-boas-praticas-atendimento-whatsapp" class="read-link-sm">Ler →</a>
+          </div>
+        </article>
+
+        <article class="article-card" onclick="location.href='artigos/artigo.html?artigo=setores-filas-roteamento-nexoup'" style="cursor:pointer">
+          <span class="cat-badge cat-crm">NexoUP</span>
+          <h3>Setores, filas e roteamento inteligente no NexoUP</h3>
+          <p>Configure setores, distribua tickets e reduza o tempo de espera dos clientes.</p>
+          <div class="card-footer">
+            <span class="read-time">⏱ 7 min</span>
+            <a href="artigos/artigo.html?artigo=setores-filas-roteamento-nexoup" class="read-link-sm">Ler →</a>
+          </div>
+        </article>
+
+        <article class="article-card" onclick="location.href='artigos/artigo.html?artigo=wip-limits-trabalho-em-progresso'" style="cursor:pointer">
+          <span class="cat-badge cat-kanban">Kanban</span>
+          <h3>WIP limits: por que limitar o trabalho em progresso muda tudo</h3>
+          <p>Como o limite de trabalho em progresso evita sobrecarga e melhora o fluxo da equipe.</p>
+          <div class="card-footer">
+            <span class="read-time">⏱ 4 min</span>
+            <a href="artigos/artigo.html?artigo=wip-limits-trabalho-em-progresso" class="read-link-sm">Ler →</a>
+          </div>
+        </article>
+
+        <article class="article-card" onclick="location.href='artigos/artigo.html?artigo=treinamento-operadores-alta-performance'" style="cursor:pointer">
+          <span class="cat-badge cat-boas">Boas práticas</span>
+          <h3>Treinamento de operadores: da integração à alta performance</h3>
+          <p>Guia para capacitar novos atendentes e manter a qualidade com o crescimento da equipe.</p>
+          <div class="card-footer">
+            <span class="read-time">⏱ 9 min</span>
+            <a href="artigos/artigo.html?artigo=treinamento-operadores-alta-performance" class="read-link-sm">Ler →</a>
+          </div>
+        </article>
+
+        <article class="article-card" onclick="location.href='artigos/artigo.html?artigo=zapi-meta-twilio-painel-unificado'" style="cursor:pointer">
+          <span class="cat-badge cat-gestao">Gestão</span>
+          <h3>Z-API, Meta e Twilio unificados em um só painel</h3>
+          <p>Como integrar múltiplos gateways de WhatsApp e ter visibilidade total do atendimento.</p>
+          <div class="card-footer">
+            <span class="read-time">⏱ 6 min</span>
+            <a href="artigos/artigo.html?artigo=zapi-meta-twilio-painel-unificado" class="read-link-sm">Ler →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE O SISTEMA -->
+  <section class="section" id="sobre">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-icon">✦</span> O sistema NexoUP</h2>
+        <p class="section-desc">CRM completo de atendimento via WhatsApp desenvolvido com Next.js 15, PostgreSQL e integração com múltiplos gateways.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3>Multi-gateway WhatsApp</h3>
+          <p>Suporte a Z-API, Meta Cloud API, Twilio Sandbox e webhook customizado em um único painel unificado.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎫</div>
+          <h3>Tickets e setores</h3>
+          <p>Organize atendimentos em setores, distribua tickets automaticamente e acompanhe o histórico completo.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <h3>Google Drive integrado</h3>
+          <p>Anexos e arquivos enviados pelo WhatsApp salvos automaticamente no Google Drive do seu time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗄️</div>
+          <h3>PostgreSQL / Supabase</h3>
+          <p>Sincronização em tempo real com banco de dados robusto. Funciona também em modo offline com dados locais.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Relatórios e logs</h3>
+          <p>Monitore a fila de webhooks, logs de tickets e métricas de atendimento em tempo real.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>API e webhooks</h3>
+          <p>Endpoints prontos para integrar com seus sistemas. Receba e envie mensagens programaticamente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section class="section section-plans" id="planos">
+    <div class="container">
+      <div class="section-header centered">
+        <div class="sys-tag">🚀 Contrate o sistema NexoUP</div>
+        <h2 class="section-title">Escolha o plano ideal para sua equipe</h2>
+        <p class="section-desc">14 dias grátis · Sem contrato de fidelidade · Cancele quando quiser</p>
+      </div>
+
+      <div class="billing-toggle">
+        <button class="toggle-btn active" id="btnMensal" onclick="setToggle('mensal')">Mensal</button>
+        <button class="toggle-btn" id="btnAnual" onclick="setToggle('anual')">Anual <span class="discount-badge">−20%</span></button>
+      </div>
+
+      <div class="plans-grid">
+
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-name">Starter</div>
+            <div class="plan-users">Até 3 operadores</div>
+          </div>
+          <div class="plan-price">
+            <span class="price-val" id="priceStarter">R$ 97</span>
+            <span class="price-period">/mês</span>
+          </div>
+          <p class="plan-desc">Ideal para pequenas equipes começando com atendimento via WhatsApp.</p>
+          <ul class="plan-features">
+            <li class="yes">1 número WhatsApp conectado</li>
+            <li class="yes">Tickets e setores básicos</li>
+            <li class="yes">Gateway Z-API ou Twilio</li>
+            <li class="yes">Sincronização PostgreSQL</li>
+            <li class="yes">Suporte por e-mail</li>
+            <li class="no">Google Drive</li>
+            <li class="no">Multi-gateway</li>
+          </ul>
+          <a href="mailto:adriano.israel@live.com?subject=Plano Starter NexoUP" class="btn-plan">Começar agora</a>
+        </div>
+
+        <div class="plan-card featured-plan">
+          <div class="plan-badge-top">⭐ Mais popular</div>
+          <div class="plan-header">
+            <div class="plan-name">Profissional</div>
+            <div class="plan-users">Até 10 operadores</div>
+          </div>
+          <div class="plan-price">
+            <span class="price-val" id="pricePro">R$ 247</span>
+            <span class="price-period">/mês</span>
+          </div>
+          <p class="plan-desc">Para empresas com volume médio-alto e múltiplos canais de WhatsApp.</p>
+          <ul class="plan-features">
+            <li class="yes">Até 3 números WhatsApp</li>
+            <li class="yes">Tickets, setores e grupos</li>
+            <li class="yes">Multi-gateway (Z-API + Meta)</li>
+            <li class="yes">Google Drive integrado</li>
+            <li class="yes">Webhook personalizado</li>
+            <li class="yes">Relatórios e logs</li>
+            <li class="yes">Suporte prioritário</li>
+          </ul>
+          <a href="mailto:adriano.israel@live.com?subject=Plano Profissional NexoUP" class="btn-plan btn-plan-featured">Contratar Profissional</a>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-name">Empresarial</div>
+            <div class="plan-users">Operadores ilimitados</div>
+          </div>
+          <div class="plan-price">
+            <span class="price-val" style="font-size:1.4rem">Sob consulta</span>
+          </div>
+          <p class="plan-desc">Para operações de grande escala com necessidades customizadas e SLA garantido.</p>
+          <ul class="plan-features">
+            <li class="yes">Números ilimitados</li>
+            <li class="yes">Todos os 4 gateways</li>
+            <li class="yes">Google Drive + Supabase</li>
+            <li class="yes">API e webhooks avançados</li>
+            <li class="yes">Implantação assistida</li>
+            <li class="yes">SLA garantido</li>
+            <li class="yes">Gerente de conta dedicado</li>
+          </ul>
+          <a href="mailto:adriano.israel@live.com?subject=Plano Empresarial NexoUP" class="btn-plan">Falar com especialista →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-section">
+    <div class="container newsletter-inner">
+      <div class="newsletter-text">
+        <h2>Receba novidades toda semana</h2>
+        <p>Artigos sobre Kanban, atendimento e gestão direto no seu e-mail. Grátis.</p>
+      </div>
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+        <input type="email" id="nlEmail" placeholder="seu@email.com" required aria-label="Seu e-mail" />
+        <button type="submit">Inscrever-se</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">Nexo<strong>UP</strong></div>
+      <p class="footer-tagline">Conectando atendimentos inteligentes</p>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a href="#">Termos de uso</a>
+        <a href="#">Privacidade</a>
+        <a href="mailto:adriano.israel@live.com">Contato</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 NexoUP. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="src/components/main.js"></script>
+</body>
+</html>
