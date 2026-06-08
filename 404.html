@@ -2,20 +2,21 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Página Não Encontrada — NexoUP</title>
+  <title>Recurso Não Encontrado — NexoUP</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 50px; background: #fafafa; color: #333; }
-    h1 { color: #e74c3c; }
-    script-debug { display: none; }
+    body { font-family: sans-serif; text-align: center; padding: 10% 5%; background: #0f172a; color: #f8fafc; }
+    h1 { color: #2ecc71; font-size: 2.5rem; }
+    p { color: #94a3b8; }
+    a { color: #2ecc71; text-decoration: none; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>Erro 404 — Recurso Não Encontrado</h1>
-  <p>O arquivo ou página que tentou aceder não existe neste deploy.</p>
-  <p><a href="/">Voltar para a Página Inicial</a></p>
+  <h1>Erro 404</h1>
+  <p>O link ou arquivo que tentou aceder não foi encontrado no servidor.</p>
+  <p><a href="/">← Voltar para a página inicial</a></p>
 
   <script>
-    console.warn("⚠️ [NexoUP Debug] O recurso tentou carregar e falhou:", window.location.href);
+    console.error("⚠️ [NexoUP Debug] Falha ao carregar o caminho exato:", window.location.pathname);
   </script>
 </body>
 </html>
