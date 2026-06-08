@@ -2,8 +2,12 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "handle": "filesystem" }
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "404.html", "use": "@vercel/static" },
+    { "src": "artigos/**", "use": "@vercel/static" },
+    { "src": "public/**", "use": "@vercel/static" },
+    { "src": "src/**", "use": "@vercel/static" }
   ],
   "headers": [
     {
