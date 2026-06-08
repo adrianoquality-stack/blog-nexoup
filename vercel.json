@@ -1,6 +1,10 @@
 {
+  "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
+  "routes": [
+    { "handle": "filesystem" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
